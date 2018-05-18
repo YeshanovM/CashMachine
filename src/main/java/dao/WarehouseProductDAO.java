@@ -21,9 +21,10 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     public List<Product> findAll() {
         List<Product> result = new ArrayList<>();
         Statement statement = null;
+        String query = "SELECT * FROM `" + TABLE_NAME + "`";
         try {
             statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT * FROM `" + TABLE_NAME + "`");
+            ResultSet set = statement.executeQuery(query);
             while(set.next()) {
                 Product product = new Product();
                 product.setCode(set.getString(CODE_COLUMN));
@@ -34,8 +35,9 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
                 result.add(product);
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            logger.info("Unable to execute query: \"" + query + "\"");
         }
+        closeStatement(statement);
         return result;
     }
 
@@ -43,10 +45,11 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     public Product findById(String id) {
         Product result = null;
         Statement statement = null;
+        String query = "SELECT * FROM `" + TABLE_NAME + "`"
+                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
         try {
             statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT * FROM `" + TABLE_NAME + "`"
-                    + " WHERE " + CODE_COLUMN + " = `" + id + "`");
+            ResultSet set = statement.executeQuery(query);
             if(set.next()) {
                 result = new Product();
                 result.setCode(set.getString(CODE_COLUMN));
@@ -56,8 +59,9 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
                 result.setPrice(set.getDouble(PRICE_COLUMN));
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            logger.info("Unable to execute query: \"" + query + "\"");
         }
+        closeStatement(statement);
         return result;
     }
 
@@ -65,45 +69,64 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     public boolean delete(String id) {
         boolean result = false;
         Statement statement = null;
+        String query = "DELETE FROM `" + TABLE_NAME + "`"
+                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
         try {
             statement = connection.createStatement();
-            int count = statement.executeUpdate("DELETE FROM `" + TABLE_NAME + "`"
-                    + " WHERE " + CODE_COLUMN + " = `" + id + "`");
+            int count = statement.executeUpdate(query);
             result = count > 0;
         } catch(SQLException e) {
-            e.printStackTrace();
+            logger.info("Unable to execute query: \"" + query + "\"");
         }
+        closeStatement(statement);
         return result;
     }
 
     @Override
     public boolean delete(Product entity) {
-        return delete(entity.getCode());
+        boolean result = false;
+        Statement statement = null;
+        String query = "DELETE FROM `" + TABLE_NAME + "`"
+                + " WHERE " + CODE_COLUMN + " = '" + entity.getCode() + "'"
+                + " AND " + NAME_COLUMN + " = '" + entity.getName() + "'"
+                + " AND " + IS_WEIGHTY_COLUMN + " = " + entity.isWeighty()
+                + " AND " + QUANTITY_COLUMN + " = " + entity.getQuantity()
+                + " AND " + PRICE_COLUMN + " = " + entity.getPrice();
+        try {
+            statement = connection.createStatement();
+            int count = statement.executeUpdate(query);
+            result = count > 0;
+        } catch(SQLException e) {
+            logger.info("Unable to execute query: \"" + query + "\"");
+        }
+        closeStatement(statement);
+        return result;
     }
 
     @Override
     public boolean create(Product entity) {
         boolean result = false;
         Statement statement = null;
+        String query = "INSERT INTO `" + TABLE_NAME + "`"
+                + " (" + CODE_COLUMN
+                + ", " + NAME_COLUMN
+                + ", " + IS_WEIGHTY_COLUMN
+                + ", " + QUANTITY_COLUMN
+                + ", " + PRICE_COLUMN
+                + ")"
+                + " VALUES ('" + entity.getCode() + "'"
+                + ", '" + entity.getName() + "'"
+                + ", " + entity.isWeighty()
+                + ", " + entity.getQuantity()
+                + ", " + entity.getPrice() + ")";
         try {
             statement = connection.createStatement();
-            int count = statement.executeUpdate("INSERT INTO `" + TABLE_NAME + "`"
-                    + " (" + CODE_COLUMN
-                    + ", " + NAME_COLUMN
-                    + ", " + IS_WEIGHTY_COLUMN
-                    + ", " + QUANTITY_COLUMN
-                    + ", " + PRICE_COLUMN
-                    + ")"
-                    + " VALUES ('" + entity.getCode() + "'"
-                    + ", '" + entity.getName() + "'"
-                    + ", " + entity.isWeighty()
-                    + ", " + entity.getQuantity()
-                    + ", " + entity.getPrice()
-            );
+            int count = statement.executeUpdate(query);
             result = count > 0;
         } catch(SQLException e) {
-            e.printStackTrace();
+            logger.info("Unable to execute query: \"" + query + "\"");
         }
+        closeStatement(statement);
         return result;
     }
 
@@ -111,19 +134,20 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     public boolean update(Product entity, String id) {
         boolean result = false;
         Statement statement = null;
+        String query = "UPDATE `" + TABLE_NAME + "`"
+                + " SET " + NAME_COLUMN +  " = '" + entity.getName() + "'"
+                + ", " + IS_WEIGHTY_COLUMN + " = " + entity.isWeighty()
+                + ", " + QUANTITY_COLUMN + " = " + entity.getQuantity()
+                + ", " + PRICE_COLUMN + " = " + entity.getPrice()
+                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
         try {
             statement = connection.createStatement();
-            int count = statement.executeUpdate("UPDATE `" + TABLE_NAME + "`"
-                    + " SET " + NAME_COLUMN +  " = `" + entity.getName() + "`"
-                    + ", " + IS_WEIGHTY_COLUMN + " = " + entity.isWeighty()
-                    + ", " + QUANTITY_COLUMN + " = " + entity.getQuantity()
-                    + ", " + PRICE_COLUMN + " = " + entity.getPrice()
-                    + " WHERE " + CODE_COLUMN + " = `" + id + "`"
-            );
+            int count = statement.executeUpdate(query);
             result = count > 0;
         } catch(SQLException e) {
-            e.printStackTrace();
+            logger.info("Unable to execute query: \"" + query + "\"");
         }
+        closeStatement(statement);
         return result;
     }
 }

@@ -1,15 +1,17 @@
 package dao;
 
 import model.entity.*;
+import org.apache.logging.log4j.*;
 
 import java.sql.*;
 import java.util.*;
 
 public abstract class AbstractDAO <K, V extends Entity> {
 
-    protected Connection connection;
+    Connection connection;
+    static final Logger logger = LogManager.getLogger("DATABASE");
 
-    public AbstractDAO(Connection connection) {
+    AbstractDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -20,4 +22,20 @@ public abstract class AbstractDAO <K, V extends Entity> {
     public abstract boolean create(V entity);
     public abstract boolean update(V entity, K id);
 
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.warn("Unable to close connection with database");
+        }
+
+    }
+
+    void closeStatement(Statement statement) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            logger.warn("Unable to close statement");
+        }
+    }
 }
