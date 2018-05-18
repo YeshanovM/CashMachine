@@ -4,32 +4,32 @@ import model.entity.*;
 import java.sql.*;
 import java.util.*;
 
-public class WarehouseProductDAO extends AbstractDAO<String, Product> {
+public class SoldProductDAO extends AbstractDAO<Integer, SoldProduct> {
 
-    private static final String CODE_COLUMN = "product_code";
-    private static final String NAME_COLUMN = "name";
-    private static final String IS_WEIGHTY_COLUMN = "is_weighty";
+    private static final String ID_COLUMN = "id";
+    private static final String PRODUCT_CODE_COLUMN = "code";
+    private static final String CHECK_ID_COLUMN = "check_id";
     private static final String QUANTITY_COLUMN = "quantity";
     private static final String PRICE_COLUMN = "price";
-    private static final String TABLE_NAME = "warehouse_products";
+    private static final String TABLE_NAME = "sold_products";
 
-    public WarehouseProductDAO(Connection connection) {
+    SoldProductDAO(Connection connection) {
         super(connection);
     }
 
     @Override
-    public List<Product> findAll() {
-        List<Product> result = new ArrayList<>();
+    public List<SoldProduct> findAll() {
+        List<SoldProduct> result = new ArrayList<>();
         Statement statement = null;
         String query = "SELECT * FROM `" + TABLE_NAME + "`";
         try {
             statement = connection.createStatement();
             ResultSet set = statement.executeQuery(query);
             while(set.next()) {
-                Product product = new Product();
-                product.setCode(set.getString(CODE_COLUMN));
-                product.setName(set.getString(NAME_COLUMN));
-                product.setWeighty(set.getBoolean(IS_WEIGHTY_COLUMN));
+                SoldProduct product = new SoldProduct();
+                product.setId(set.getInt(ID_COLUMN));
+                product.setProductCode(set.getString(PRODUCT_CODE_COLUMN));
+                product.setCheckId(set.getInt(CHECK_ID_COLUMN));
                 product.setQuantity(set.getDouble(QUANTITY_COLUMN));
                 product.setPrice(set.getDouble(PRICE_COLUMN));
                 result.add(product);
@@ -42,42 +42,19 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     }
 
     @Override
-    public Product findById(String id) {
-        Product result = null;
+    public SoldProduct findById(Integer id) {
+        SoldProduct result = null;
         Statement statement = null;
         String query = "SELECT * FROM `" + TABLE_NAME + "`"
-                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
+                + " WHERE " + ID_COLUMN + " = " + id;
         try {
             statement = connection.createStatement();
             ResultSet set = statement.executeQuery(query);
             if(set.next()) {
-                result = new Product();
-                result.setCode(set.getString(CODE_COLUMN));
-                result.setName(set.getString(NAME_COLUMN));
-                result.setWeighty(set.getBoolean(IS_WEIGHTY_COLUMN));
-                result.setQuantity(set.getDouble(QUANTITY_COLUMN));
-                result.setPrice(set.getDouble(PRICE_COLUMN));
-            }
-        } catch(SQLException e) {
-            logger.info("Unable to execute query: \"" + query + "\"");
-        }
-        closeStatement(statement);
-        return result;
-    }
-
-    public Product findByName(String name) {
-        Product result = null;
-        Statement statement = null;
-        String query = "SELECT * FROM `" + TABLE_NAME + "`"
-                + " WHERE " + NAME_COLUMN + " = '" + name + "'";
-        try {
-            statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
-            if(set.next()) {
-                result = new Product();
-                result.setCode(set.getString(CODE_COLUMN));
-                result.setName(set.getString(NAME_COLUMN));
-                result.setWeighty(set.getBoolean(IS_WEIGHTY_COLUMN));
+                result = new SoldProduct();
+                result.setId(set.getInt(ID_COLUMN));
+                result.setProductCode(set.getString(PRODUCT_CODE_COLUMN));
+                result.setCheckId(set.getInt(CHECK_ID_COLUMN));
                 result.setQuantity(set.getDouble(QUANTITY_COLUMN));
                 result.setPrice(set.getDouble(PRICE_COLUMN));
             }
@@ -89,11 +66,11 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(Integer id) {
         boolean result = false;
         Statement statement = null;
         String query = "DELETE FROM `" + TABLE_NAME + "`"
-                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
+                + " WHERE " + ID_COLUMN + " = " + id;
         try {
             statement = connection.createStatement();
             int count = statement.executeUpdate(query);
@@ -106,13 +83,13 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     }
 
     @Override
-    public boolean delete(Product entity) {
+    public boolean delete(SoldProduct entity) {
         boolean result = false;
         Statement statement = null;
         String query = "DELETE FROM `" + TABLE_NAME + "`"
-                + " WHERE " + CODE_COLUMN + " = '" + entity.getCode() + "'"
-                + " AND " + NAME_COLUMN + " = '" + entity.getName() + "'"
-                + " AND " + IS_WEIGHTY_COLUMN + " = " + entity.isWeighty()
+                + " WHERE " + ID_COLUMN + " = " + entity.getId()
+                + " AND " + PRODUCT_CODE_COLUMN + " = '" + entity.getProductCode() + "'"
+                + " AND " + CHECK_ID_COLUMN + " = " + entity.getCheckId()
                 + " AND " + QUANTITY_COLUMN + " = " + entity.getQuantity()
                 + " AND " + PRICE_COLUMN + " = " + entity.getPrice();
         try {
@@ -127,19 +104,19 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     }
 
     @Override
-    public boolean create(Product entity) {
+    public boolean create(SoldProduct entity) {
         boolean result = false;
         Statement statement = null;
         String query = "INSERT INTO `" + TABLE_NAME + "`"
-                + " (" + CODE_COLUMN
-                + ", " + NAME_COLUMN
-                + ", " + IS_WEIGHTY_COLUMN
+                + " (" + ID_COLUMN
+                + ", " + PRODUCT_CODE_COLUMN
+                + ", " + CHECK_ID_COLUMN
                 + ", " + QUANTITY_COLUMN
                 + ", " + PRICE_COLUMN
                 + ")"
-                + " VALUES ('" + entity.getCode() + "'"
-                + ", '" + entity.getName() + "'"
-                + ", " + entity.isWeighty()
+                + " VALUES (" + entity.getId()
+                + ", '" + entity.getProductCode() + "'"
+                + ", " + entity.getCheckId()
                 + ", " + entity.getQuantity()
                 + ", " + entity.getPrice() + ")";
         try {
@@ -154,15 +131,15 @@ public class WarehouseProductDAO extends AbstractDAO<String, Product> {
     }
 
     @Override
-    public boolean update(Product entity, String id) {
+    public boolean update(SoldProduct entity, Integer id) {
         boolean result = false;
         Statement statement = null;
         String query = "UPDATE `" + TABLE_NAME + "`"
-                + " SET " + NAME_COLUMN +  " = '" + entity.getName() + "'"
-                + ", " + IS_WEIGHTY_COLUMN + " = " + entity.isWeighty()
+                + " SET " + PRODUCT_CODE_COLUMN +  " = '" + entity.getProductCode() + "'"
+                + ", " + CHECK_ID_COLUMN + " = " + entity.getCheckId()
                 + ", " + QUANTITY_COLUMN + " = " + entity.getQuantity()
                 + ", " + PRICE_COLUMN + " = " + entity.getPrice()
-                + " WHERE " + CODE_COLUMN + " = '" + id + "'";
+                + " WHERE " + ID_COLUMN + " = " + id;
         try {
             statement = connection.createStatement();
             int count = statement.executeUpdate(query);
