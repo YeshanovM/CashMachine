@@ -2,15 +2,15 @@ package model.entity;
 
 import java.util.*;
 
-public class Product implements Entity {
+public class WarehouseProduct implements Entity {
     private String code, name;
     private boolean isWeighty;
     private double quantity, price;
 
-    public Product() {
+    public WarehouseProduct() {
     }
 
-    public Product(String code, String name, boolean isWeighty, double quantity, double price) {
+    public WarehouseProduct(String code, String name, boolean isWeighty, double quantity, double price) {
         this.code = code;
         this.name = name;
         this.isWeighty = isWeighty;
@@ -61,13 +61,13 @@ public class Product implements Entity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product product = (Product) o;
-        return isWeighty == product.isWeighty &&
-                Double.compare(product.quantity, quantity) == 0 &&
-                Double.compare(product.price, price) == 0 &&
-                Objects.equals(code, product.code) &&
-                Objects.equals(name, product.name);
+        if (!(o instanceof WarehouseProduct)) return false;
+        WarehouseProduct warehouseProduct = (WarehouseProduct) o;
+        return isWeighty == warehouseProduct.isWeighty &&
+                Double.compare(warehouseProduct.quantity, quantity) == 0 &&
+                Double.compare(warehouseProduct.price, price) == 0 &&
+                Objects.equals(code, warehouseProduct.code) &&
+                Objects.equals(name, warehouseProduct.name);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Product implements Entity {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "WarehouseProduct{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", isWeighty=" + isWeighty +
