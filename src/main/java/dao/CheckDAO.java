@@ -13,8 +13,33 @@ public class CheckDAO extends AbstractDAO<Integer, Check> {
     private static final String IS_CANCELED_COLUMN = "is_canceled";
     private static final String TABLE_NAME = "checks";
 
-    CheckDAO(Connection connection) {
+    public CheckDAO(Connection connection) {
         super(connection);
+    }
+
+    public int createAndGetId(Check entity) {
+        Statement statement = null;
+        ResultSet rs;
+        int result = -1;
+        String query = "INSERT INTO `" + TABLE_NAME + "`"
+                + " (" + CASHIER_UID_COLUMN
+                + ", " + TIMESTAMP_COLUMN
+                + ", " + IS_CANCELED_COLUMN
+                + ")"
+                + " VALUES ('" + entity.getCashierId() + "'"
+                + ", '" + entity.getTimestamp() + "'"
+                + ", " + entity.isCanceled() + ")";
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            rs = statement.getGeneratedKeys();
+            rs.next();
+            result = rs.getInt(1);
+        } catch (SQLException e) {
+            logger.info("Unable to execute query: \"" + query + "\"");
+        }
+        closeStatement(statement);
+        return result;
     }
 
     @Override
@@ -88,7 +113,7 @@ public class CheckDAO extends AbstractDAO<Integer, Check> {
                 + " WHERE " + ID_COLUMN + " = " + entity.getId()
                 + " AND " + IS_CANCELED_COLUMN + " = " + entity.isCanceled()
                 + " AND " + CASHIER_UID_COLUMN + " = '" + entity.getCashierId() + "'"
-                + " AND " + TIMESTAMP_COLUMN + " = " + entity.getTimestamp();
+                + " AND " + TIMESTAMP_COLUMN + " = '" + entity.getTimestamp() + "'";
         try {
             statement = connection.createStatement();
             int count = statement.executeUpdate(query);
@@ -105,14 +130,12 @@ public class CheckDAO extends AbstractDAO<Integer, Check> {
         boolean result = false;
         Statement statement = null;
         String query = "INSERT INTO `" + TABLE_NAME + "`"
-                + " (" + ID_COLUMN
-                + ", " + CASHIER_UID_COLUMN
+                + " (" + CASHIER_UID_COLUMN
                 + ", " + TIMESTAMP_COLUMN
                 + ", " + IS_CANCELED_COLUMN
                 + ")"
-                + " VALUES (" + entity.getId() + ""
-                + ", '" + entity.getCashierId() + "'"
-                + ", " + entity.getTimestamp()
+                + " VALUES ('" + entity.getCashierId() + "'"
+                + ", '" + entity.getTimestamp() + "'"
                 + ", " + entity.isCanceled() + ")";
         try {
             statement = connection.createStatement();
@@ -131,7 +154,7 @@ public class CheckDAO extends AbstractDAO<Integer, Check> {
         Statement statement = null;
         String query = "UPDATE `" + TABLE_NAME + "`"
                 + " SET " + CASHIER_UID_COLUMN +  " = '" + entity.getCashierId() + "'"
-                + ", " + TIMESTAMP_COLUMN + " = " + entity.getTimestamp()
+                + ", " + TIMESTAMP_COLUMN + " = '" + entity.getTimestamp() + "'"
                 + ", " + IS_CANCELED_COLUMN + " = " + entity.isCanceled()
                 + " WHERE " + ID_COLUMN + " = " + id + "";
         try {

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Context>
+<Resource name="jdbc/cashMachine" auth="Container"
+          type="javax.sql.DataSource" maxActive="100"
+          maxIdle="30" maxWait="10000"
+          username="admin"
+          password="admin"
+          driverClassName="com.mysql.jdbc.Driver"
+          url="jdbc:mysql://localhost:3306/cash_machine?useUnicode=true
+                    &amp;characterEncoding=UTF8
+                    &amp;useJDBCCompliantTimezoneShift=true
+                    &amp;useLegacyDatetimeCode=false
+                    &amp;serverTimezone=UTC"/>
+</Context>

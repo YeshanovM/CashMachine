@@ -13,7 +13,7 @@ public class SoldProductDAO extends AbstractDAO<Integer, SoldProduct> {
     private static final String PRICE_COLUMN = "price";
     private static final String TABLE_NAME = "sold_products";
 
-    SoldProductDAO(Connection connection) {
+    public SoldProductDAO(Connection connection) {
         super(connection);
     }
 
@@ -108,14 +108,12 @@ public class SoldProductDAO extends AbstractDAO<Integer, SoldProduct> {
         boolean result = false;
         Statement statement = null;
         String query = "INSERT INTO `" + TABLE_NAME + "`"
-                + " (" + ID_COLUMN
-                + ", " + PRODUCT_CODE_COLUMN
+                + " (" + PRODUCT_CODE_COLUMN
                 + ", " + CHECK_ID_COLUMN
                 + ", " + QUANTITY_COLUMN
                 + ", " + PRICE_COLUMN
                 + ")"
-                + " VALUES (" + entity.getId()
-                + ", '" + entity.getProductCode() + "'"
+                + " VALUES ('" + entity.getProductCode() + "'"
                 + ", " + entity.getCheckId()
                 + ", " + entity.getQuantity()
                 + ", " + entity.getPrice() + ")";

@@ -5,10 +5,23 @@
 <html>
 <head>
     <title>Home</title>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 </head>
 <body>
-    <form method="post" action="/logout">
+    <form method="get" action="/logout">
         <input type="submit" value="Logout">
     </form>
+    <c:set var="access" value="access" />
+    <c:if test="${sessionScope[access] == 1 || sessionScope[access] == 3}">
+        <form method="get" action="/check">
+            <input type="submit" value="Open check">
+        </form>
+    </c:if>
+    <c:if test="${sessionScope[access] == 2}">
+        <!-- TODO -->
+    </c:if>
+    <c:if test="${sessionScope[access] == 4}">
+        <!-- TODO -->
+    </c:if>
 </body>
 </html>

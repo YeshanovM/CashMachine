@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -7,12 +8,12 @@ public class Check implements Entity {
     private int id;
     private String cashierId;
     private boolean isCanceled;
-    private Date timestamp;
+    private Timestamp timestamp;
 
     public Check() {
     }
 
-    public Check(int id, String cashierId, boolean isCanceled, Date timestamp) {
+    public Check(int id, String cashierId, boolean isCanceled, Timestamp timestamp) {
         this.id = id;
         this.cashierId = cashierId;
         this.isCanceled = isCanceled;
@@ -43,11 +44,11 @@ public class Check implements Entity {
         isCanceled = canceled;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
