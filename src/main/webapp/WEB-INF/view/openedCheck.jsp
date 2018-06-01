@@ -6,13 +6,21 @@
 </head>
 <body>
     <c:set var="products" value="productsInCheck"/>
-    <c:set var="uid" value="uid"/>
+    <c:set var="access" value="access"/>
     <table>
         <c:forEach items="${sessionScope[products]}" var="product">
             <tr>
                 <td>
                     ${product.getName()} ${product.getQuantity()} x ${product.getPrice()} = ${product.getQuantity() * product.getPrice()}<br>
-                </td>k
+                </td>
+                <c:if test="${sessionScope[access] == 2 || sessionScope[access] == 3}">
+                    <td>
+                        <form action="/check" method="post">
+                            <input type="hidden" name="canceledProductName" value="${product.getName()}">
+                            <input type="submit" value="Cancel product">
+                        </form>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>

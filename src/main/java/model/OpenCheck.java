@@ -25,6 +25,7 @@ public class OpenCheck {
                 .stream()
                 .map(WarehouseProduct::getName)
                 .collect(Collectors.toList());
+        wpDAO.close();
         return result;
     }
 
@@ -39,6 +40,7 @@ public class OpenCheck {
         product.setQuantity(quantity);
         if(quantity != (int) quantity && !product.isWeighty())
             return null;
+        wpDAO.close();
         return product;
     }
 
@@ -53,6 +55,7 @@ public class OpenCheck {
         product.setQuantity(quantity);
         if(quantity != (int) quantity && !product.isWeighty())
             return null;
+        wpDAO.close();
         return product;
     }
 

@@ -15,6 +15,15 @@ public class OpenCheckServlet extends HttpServlet {
     private static final String OPENED_CHECK_URL = "/WEB-INF/view/openedCheck.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameterMap().containsKey("canceledProductName")) {
+            HttpSession session = request.getSession();
+            ArrayList<WarehouseProduct> products = (ArrayList<WarehouseProduct>) session.getAttribute("productsInCheck");
+            products.removeIf(product -> product.getName().equals(request.getParameter("canceledProductName")));
+            session.setAttribute("productsInCheck", products);
+            request.setAttribute("productsNames", new OpenCheck().getProductsNames());
+            request.getRequestDispatcher(OPENED_CHECK_URL).forward(request, response);
+            return;
+        }
         boolean searchByCode = request.getParameter("searchBy").equals("code");
         String code = request.getParameter("code");
         String name = request.getParameter("name");
