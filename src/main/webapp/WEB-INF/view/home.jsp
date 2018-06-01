@@ -25,7 +25,9 @@
         ${checkCancelResult}
     </c:if>
     <c:if test="${sessionScope[access] == 4}">
-        <!-- TODO -->
+        <form action="/productsMenu" method="post">
+            <input type="submit" value="Open products menu">
+        </form>
     </c:if>
 </body>
 </html>

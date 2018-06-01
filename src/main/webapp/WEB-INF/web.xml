@@ -38,6 +38,10 @@
         <servlet-name>CancelCheckServlet</servlet-name>
         <servlet-class>controller.CancelCheckServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductsMenuServlet</servlet-name>
+        <servlet-class>controller.ProductsMenuServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -62,6 +66,10 @@
     <servlet-mapping>
         <servlet-name>CancelCheckServlet</servlet-name>
         <url-pattern>/cancelCheck</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductsMenuServlet</servlet-name>
+        <url-pattern>/productsMenu</url-pattern>
     </servlet-mapping>
 
     <session-config>
