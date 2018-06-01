@@ -12,11 +12,11 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class CloseCheck {
+public class CloseCheckModel {
 
     private static final Logger logger = LogManager.getLogger("MODEL");
 
-    public CloseCheck() {
+    public CloseCheckModel() {
     }
 
     public Check closeCheck(List<WarehouseProduct> warehouseProducts, String cashierId) {

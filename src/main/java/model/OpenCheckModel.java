@@ -11,11 +11,11 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class OpenCheck {
+public class OpenCheckModel {
 
     private static final Logger logger = LogManager.getLogger("MODEL");
 
-    public OpenCheck() {
+    public OpenCheckModel() {
     }
 
     public List<String> getProductsNames() {

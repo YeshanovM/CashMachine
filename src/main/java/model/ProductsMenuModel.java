@@ -9,10 +9,10 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
-public class Products {
+public class ProductsMenuModel {
     private static final Logger logger = LogManager.getLogger("MODEL");
 
-    public Products() {
+    public ProductsMenuModel() {
     }
 
     public List<WarehouseProduct> getAllProducts() {

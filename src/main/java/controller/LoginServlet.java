@@ -1,6 +1,6 @@
 package controller;
 
-import model.Login;
+import model.LoginModel;
 import org.apache.logging.log4j.*;
 
 import javax.servlet.*;
@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uid = request.getParameter("uid");
         String password = request.getParameter("password");
-        int access = new Login().authorize(uid, password);
+        int access = new LoginModel().authorize(uid, password);
         if(access == -1) {
             request.setAttribute("error", "Incorrect UID or password");
             request.setAttribute("uid", uid);

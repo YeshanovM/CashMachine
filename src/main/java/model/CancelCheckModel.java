@@ -8,11 +8,11 @@ import javax.naming.*;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class CancelCheck {
+public class CancelCheckModel {
 
     private static final Logger logger = LogManager.getLogger("MODEL");
 
-    public CancelCheck() {
+    public CancelCheckModel() {
     }
 
     public boolean cancelCheck(int checkId) {

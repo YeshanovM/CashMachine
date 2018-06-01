@@ -1,6 +1,6 @@
 package controller;
 
-import model.OpenCheck;
+import model.OpenCheckModel;
 import model.entity.WarehouseProduct;
 
 import javax.servlet.ServletException;
@@ -20,7 +20,7 @@ public class OpenCheckServlet extends HttpServlet {
             ArrayList<WarehouseProduct> products = (ArrayList<WarehouseProduct>) session.getAttribute("productsInCheck");
             products.removeIf(product -> product.getName().equals(request.getParameter("canceledProductName")));
             session.setAttribute("productsInCheck", products);
-            request.setAttribute("productsNames", new OpenCheck().getProductsNames());
+            request.setAttribute("productsNames", new OpenCheckModel().getProductsNames());
             request.getRequestDispatcher(OPENED_CHECK_URL).forward(request, response);
             return;
         }
@@ -36,7 +36,7 @@ public class OpenCheckServlet extends HttpServlet {
             error += "Invalid number format.";
             hasError = true;
         }
-        OpenCheck model = new OpenCheck();
+        OpenCheckModel model = new OpenCheckModel();
         WarehouseProduct product = searchByCode ?
                 model.getProductByCode(code, quantity) :
                 model.getProductByName(name, quantity);
@@ -61,7 +61,7 @@ public class OpenCheckServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("productsNames", new OpenCheck().getProductsNames());
+        request.setAttribute("productsNames", new OpenCheckModel().getProductsNames());
         HttpSession session = request.getSession();
         session.setAttribute("productsInCheck", new ArrayList<WarehouseProduct>());
         request.getRequestDispatcher(OPENED_CHECK_URL).forward(request, response);

@@ -19,7 +19,7 @@ public class ProductsMenuServlet extends HttpServlet {
         if(request.getParameterMap().containsKey("editProduct")) {
             try {
                 double quantity = Double.parseDouble((String) request.getParameter("quantity"));
-                Products model = new Products();
+                ProductsMenuModel model = new ProductsMenuModel();
                 WarehouseProduct product = model.getProductByCode(request.getParameter("code"));
                 if (!product.isWeighty() && quantity != (int) quantity)
                     error = "Error! Product is not weighty, so its quantity must be an integer value.";
@@ -43,7 +43,7 @@ public class ProductsMenuServlet extends HttpServlet {
                 if (!product.isWeighty() && product.getQuantity() != (int) product.getQuantity())
                     error = "Error! Product is not weighty, so its quantity must be an integer value.";
                 else {
-                    result = new Products().createProduct(product);
+                    result = new ProductsMenuModel().createProduct(product);
                     if(!result)
                         error = "Error! This might happen in case product with this name or code already exists.";
                 }
@@ -57,7 +57,7 @@ public class ProductsMenuServlet extends HttpServlet {
                 request.setAttribute("price", request.getParameter("price"));
             }
         }
-        List<WarehouseProduct> allProducts = new Products().getAllProducts();
+        List<WarehouseProduct> allProducts = new ProductsMenuModel().getAllProducts();
         request.setAttribute("allProducts", allProducts);
         request.setAttribute("error", error);
         request.getRequestDispatcher(PRODUCTS_MENU_URL).forward(request, response);

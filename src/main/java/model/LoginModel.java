@@ -2,9 +2,9 @@ package model;
 
 import java.util.*;
 
-public class Login {
+public class LoginModel {
 
-    public Login() {
+    public LoginModel() {
     }
 
     public int authorize(String uid, String password) {

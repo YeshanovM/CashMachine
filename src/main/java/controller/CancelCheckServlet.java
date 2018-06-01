@@ -1,6 +1,6 @@
 package controller;
 
-import model.CancelCheck;
+import model.CancelCheckModel;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ public class CancelCheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String checkId = request.getParameter("checkId");
         try {
-            boolean checkCanceled = new CancelCheck().cancelCheck(Integer.parseInt(checkId));
+            boolean checkCanceled = new CancelCheckModel().cancelCheck(Integer.parseInt(checkId));
             if(!checkCanceled)
                 request.setAttribute("checkCancelResult", "Error! No such check found.");
             else

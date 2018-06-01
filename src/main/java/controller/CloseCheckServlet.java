@@ -1,6 +1,6 @@
 package controller;
 
-import model.CloseCheck;
+import model.CloseCheckModel;
 import model.entity.Check;
 import model.entity.WarehouseProduct;
 
@@ -18,7 +18,7 @@ public class CloseCheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         ArrayList<WarehouseProduct> products = (ArrayList<WarehouseProduct>) session.getAttribute("productsInCheck");
-        Check check = new CloseCheck().closeCheck(products, (String) session.getAttribute("uid"));
+        Check check = new CloseCheckModel().closeCheck(products, (String) session.getAttribute("uid"));
         session.removeAttribute("productsInCheck");
         request.setAttribute("productsInCheck", products);
         request.setAttribute("check", check);
