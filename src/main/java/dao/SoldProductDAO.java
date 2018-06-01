@@ -17,6 +17,22 @@ public class SoldProductDAO extends AbstractDAO<Integer, SoldProduct> {
         super(connection);
     }
 
+    public boolean deleteAllByCheckId(Integer id) {
+        boolean result = false;
+        Statement statement = null;
+        String query = "DELETE FROM `" + TABLE_NAME + "`"
+                + " WHERE " + CHECK_ID_COLUMN + " = " + id;
+        try {
+            statement = connection.createStatement();
+            int count = statement.executeUpdate(query);
+            result = count > 0;
+        } catch(SQLException e) {
+            logger.info("Unable to execute query: \"" + query + "\"");
+        }
+        closeStatement(statement);
+        return result;
+    }
+
     @Override
     public List<SoldProduct> findAll() {
         List<SoldProduct> result = new ArrayList<>();

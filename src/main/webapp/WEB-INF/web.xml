@@ -34,6 +34,10 @@
         <servlet-name>CloseCheckServlet</servlet-name>
         <servlet-class>controller.CloseCheckServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CancelCheckServlet</servlet-name>
+        <servlet-class>controller.CancelCheckServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -54,6 +58,10 @@
     <servlet-mapping>
         <servlet-name>CloseCheckServlet</servlet-name>
         <url-pattern>/closeCheck</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelCheckServlet</servlet-name>
+        <url-pattern>/cancelCheck</url-pattern>
     </servlet-mapping>
 
     <session-config>

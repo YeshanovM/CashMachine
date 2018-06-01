@@ -17,8 +17,12 @@
             <input type="submit" value="Open check">
         </form>
     </c:if>
-    <c:if test="${sessionScope[access] == 2}">
-        <!-- TODO -->
+    <c:if test="${sessionScope[access] == 2 || sessionScope[access] == 3}">
+        <form action="/cancelCheck" method="post">
+            <input type="text" name="checkId" placeholder="Check id">
+            <input type="submit" value="Cancel check">
+        </form>
+        ${checkCancelResult}
     </c:if>
     <c:if test="${sessionScope[access] == 4}">
         <!-- TODO -->
