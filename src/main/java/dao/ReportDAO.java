@@ -11,10 +11,10 @@ public class ReportDAO extends AbstractDAO<Integer, Report> {
     private static final String END_COLUMN = "end_time";
     private static final String INCOMES_COLUMN = "incomes";
     private static final String EXPENSES_COLUMN = "expenses";
-    private static final String IS_CLOSED_COLUMN = "is_canceled";
+    private static final String IS_CLOSED_COLUMN = "is_closed";
     private static final String TABLE_NAME = "reports";
 
-    ReportDAO(Connection connection) {
+    public ReportDAO(Connection connection) {
         super(connection);
     }
 
@@ -112,16 +112,14 @@ public class ReportDAO extends AbstractDAO<Integer, Report> {
         boolean result = false;
         Statement statement = null;
         String query = "INSERT INTO `" + TABLE_NAME + "`"
-                + " (" + ID_COLUMN
-                + ", " + START_COLUMN
+                + " (" + START_COLUMN
                 + ", " + END_COLUMN
                 + ", " + INCOMES_COLUMN
                 + ", " + EXPENSES_COLUMN
                 + ", " + IS_CLOSED_COLUMN
                 + ")"
-                + " VALUES (" + entity.getId()
-                + ", " + entity.getStartTime()
-                + ", " + entity.getEndTime()
+                + " VALUES ('" + entity.getStartTime() + "'"
+                + ", '" + entity.getEndTime() + "'"
                 + ", " + entity.getIncomes()
                 + ", " + entity.getExpenses()
                 + ", " + entity.isClosed() + ")";
@@ -130,6 +128,7 @@ public class ReportDAO extends AbstractDAO<Integer, Report> {
             int count = statement.executeUpdate(query);
             result = count > 0;
         } catch(SQLException e) {
+            e.printStackTrace();
             logger.info("Unable to execute query: \"" + query + "\"");
         }
         closeStatement(statement);
@@ -141,8 +140,8 @@ public class ReportDAO extends AbstractDAO<Integer, Report> {
         boolean result = false;
         Statement statement = null;
         String query = "UPDATE `" + TABLE_NAME + "`"
-                + " SET " + START_COLUMN +  " = " + entity.getStartTime()
-                + ", " + END_COLUMN + " = " + entity.getEndTime()
+                + " SET " + START_COLUMN +  " = '" + entity.getStartTime() + "'"
+                + ", " + END_COLUMN + " = '" + entity.getEndTime() + "'"
                 + ", " + INCOMES_COLUMN + " = " + entity.getIncomes()
                 + ", " + EXPENSES_COLUMN + " = " + entity.getExpenses()
                 + ", " + IS_CLOSED_COLUMN + " = " + entity.isClosed()

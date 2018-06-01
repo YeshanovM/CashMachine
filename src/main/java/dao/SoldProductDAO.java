@@ -17,15 +17,23 @@ public class SoldProductDAO extends AbstractDAO<Integer, SoldProduct> {
         super(connection);
     }
 
-    public boolean deleteAllByCheckId(Integer id) {
-        boolean result = false;
+    public List<SoldProduct> findAllByCheckId(Integer id) {
+        List<SoldProduct> result = new ArrayList<>();
         Statement statement = null;
-        String query = "DELETE FROM `" + TABLE_NAME + "`"
+        String query = "SELECT * FROM `" + TABLE_NAME + "`"
                 + " WHERE " + CHECK_ID_COLUMN + " = " + id;
         try {
             statement = connection.createStatement();
-            int count = statement.executeUpdate(query);
-            result = count > 0;
+            ResultSet set = statement.executeQuery(query);
+            while(set.next()) {
+                SoldProduct product = new SoldProduct();
+                product.setId(set.getInt(ID_COLUMN));
+                product.setProductCode(set.getString(PRODUCT_CODE_COLUMN));
+                product.setCheckId(set.getInt(CHECK_ID_COLUMN));
+                product.setQuantity(set.getDouble(QUANTITY_COLUMN));
+                product.setPrice(set.getDouble(PRICE_COLUMN));
+                result.add(product);
+            }
         } catch(SQLException e) {
             logger.info("Unable to execute query: \"" + query + "\"");
         }

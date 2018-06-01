@@ -23,6 +23,13 @@
             <input type="submit" value="Cancel check">
         </form>
         ${checkCancelResult}
+        <form action="/report" method="post">
+            <input type="submit" value="X report">
+        </form>
+        <form action="/report" method="post">
+            <input type="hidden" name="z">
+            <input type="submit" value="Z report">
+        </form>
     </c:if>
     <c:if test="${sessionScope[access] == 4}">
         <form action="/productsMenu" method="post">

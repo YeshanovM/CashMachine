@@ -42,6 +42,10 @@
         <servlet-name>ProductsMenuServlet</servlet-name>
         <servlet-class>controller.ProductsMenuServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>controller.ReportServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -71,6 +75,11 @@
         <servlet-name>ProductsMenuServlet</servlet-name>
         <url-pattern>/productsMenu</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/report</url-pattern>
+    </servlet-mapping>
+
 
     <session-config>
         <session-timeout>30</session-timeout>
